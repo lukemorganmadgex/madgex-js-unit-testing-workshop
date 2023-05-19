@@ -7,10 +7,8 @@ const jobs = ref([]);
 
 async function getJobs() {
 
-  const res = await axios.get(`/api/jobs?jobCount=${jobCount.value}`);
-  if (res.status === 200) {
-    jobs.value = res.data.data;
-  }
+  const res = await axios.get(`/api/jobs?jobCount=${jobCount}`);
+  console.log(res);
 
 }
 
@@ -25,9 +23,9 @@ async function getJobs() {
     <button type="submit" @click="getJobs()">Get jobs</button>
   </form>
   <div class="results">
-    <div v-for="(job, index) in jobs" :key="index">
-      <h3>title: {{ job.title }}</h3>
-      <p>description: {{ job.description }}</p>
+    <div v-for="(index, job) in jobs" :key="index">
+      <h3>{{ job.title }}</h3>
+      <p>{{ job.description }}</p>
       <small>salrary: {{ job.salary }}</small>
     </div>
   </div>

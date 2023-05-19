@@ -7,7 +7,7 @@ A unit testing workshop for Madgex front-end developers. Looks at NPM Workspaces
 1. run `npm init -w api`
 2. run `npm i express -w api`
 3. create an `index.js` file in `/api`
-4. add the following to your `/api/index.js` to create a simple hello world express app
+4. create a simple hello world express app
 
 ```js
 const express = require('express');
@@ -49,20 +49,7 @@ app.listen(port, () => {
 ```
 
 5. in `/api/package.json` define a start command
-
-```json
-  "scripts": {
-    "start": "node index.js"
-  },
-```
-
 6. in monorepo root, add a command to start the api workspace `npm run start -w api`
-
-```json
- "scripts": {
-    "start:api": "npm run start -w api"
-  },
-```
 
 ## vite + vue
 
@@ -86,10 +73,6 @@ server: {
 
 2. define an alias so that `@` resolves to the `/src` of our `/vite-project/src`
 -- add the following to the `/vite-project/vite.config.js`
-
-```js
-  import { fileURLToPath, URL } from 'node:url';
-```
 
 ```js
   resolve: {
