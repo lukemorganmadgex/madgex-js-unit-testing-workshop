@@ -1,8 +1,8 @@
-# Lesson 1
+# Madgex FED js unit testing workshop
 
 A unit testing workshop for Madgex front-end developers. Looks at NPM Workspaces, Vue, Vite, Vitest, Vue Test Utils and Mock Service Worker.
 
-## npm workspaces
+## Lesson 1 - npm workspaces
 
 1. run `npm init -w api`
 2. run `npm i express -w api`
@@ -64,7 +64,7 @@ app.listen(port, () => {
   },
 ```
 
-## vite + vue
+## Lesson 2 - vite + vue
 
 -- vue js intro - who/what/when/where/why
 -- vite build tool intro - who/what/when/where/why
@@ -99,12 +99,12 @@ server: {
   },
 ```
 
-## vitest
+## Lesson 3 - vitest
 
 -- test environment (jsdom)
 -- test setup
 
-## writing a unit test in a vue context
+## Lesson 4 - writing a unit test in a vue context
 
 -- test files
 -- vitest - expects
@@ -116,7 +116,7 @@ server: {
 -- vitest - spys
 -- vue context - flushPromises()
 
-## mock service worker
+## Lesson 5 - mock service worker
 
 -- setup & how it works
 -- mocking http requests/responses
