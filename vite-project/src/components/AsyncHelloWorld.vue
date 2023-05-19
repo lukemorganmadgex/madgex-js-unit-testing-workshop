@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import axios from 'axios';
 
-const jobCount = ref(5);
+const jobCount = ref(0);
 const jobs = ref([]);
 
 async function getJobs() {
