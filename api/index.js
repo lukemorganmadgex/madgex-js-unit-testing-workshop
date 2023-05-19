@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
-app.get('/api/jobs', (req, res) => {
+app.get('/jobs', (req, res) => {
 
   if (req.query['jobCount']) {
     const jobSlice = jobs.slice(0, parseInt(req.query['jobCount'], 10));
