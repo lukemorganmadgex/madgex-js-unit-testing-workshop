@@ -2,14 +2,19 @@
 
 ## npm workspaces
 
--- defining a workspace
--- running commands in a workspace
+1. run `npm init -w api`
+2. run `npm i express -w api`
+3. create an `index.js` file in `/api`
+4. create a simple hello world express app
+5. in `/api/package.json` define a start command
+6. in monorepo root, add a command to start the api workspace `npm run start -w api`
 
 ## vite + vue
 
--- vue js intro
--- vite build tool intro
--- config file
+-- vue js intro - who/what/when/where/why
+-- vite build tool intro - who/what/when/where/why
+-- vite config file - who/what/when/where/why
+-- alias in vite file
 
 ## vitest
 
