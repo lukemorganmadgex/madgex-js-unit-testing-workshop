@@ -66,12 +66,13 @@ app.listen(port, () => {
 
 ## Lesson 2 - vite + vue
 
--- vue js intro - who/what/when/where/why
--- vite build tool intro - who/what/when/where/why
--- vite config file - who/what/when/where/why
+vue js intro - who/what/when/where/why
+vite build tool intro - who/what/when/where/why
+vite config file - who/what/when/where/why
 
 1. define an proxy for our api domain so that we can make requests using '/api'
--- add the following to the `/vite-project/vite.config.js`
+
+add the following to the `/vite-project/vite.config.js`
 
 ```js
 server: {
@@ -85,7 +86,8 @@ server: {
 ```
 
 2. define an alias so that `@` resolves to the `/src` of our `/vite-project/src`
--- add the following to the `/vite-project/vite.config.js`
+
+add the following to the `/vite-project/vite.config.js`
 
 ```js
   import { fileURLToPath, URL } from 'node:url';
