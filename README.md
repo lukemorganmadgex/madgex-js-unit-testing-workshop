@@ -1,5 +1,7 @@
 # Lesson 1
 
+A unit testing workshop for Madgex front-end developers. Looks at NPM Workspaces, Vue, Vite, Vitest, Vue Test Utils and Mock Service Worker.
+
 ## npm workspaces
 
 1. run `npm init -w api`
