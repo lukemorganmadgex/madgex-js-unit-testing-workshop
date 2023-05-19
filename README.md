@@ -59,8 +59,8 @@ app.listen(port, () => {
 6. in monorepo root, add a command to start the api workspace `npm run start -w api`
 
 ```json
- "scripts": {
-    "start:api": "npm run start -w api"
+  "scripts": {
+      "start:api": "npm run start -w api"
   },
 ```
 
@@ -101,15 +101,15 @@ server: {
 
 ## vitest
 
--- test setup
 -- test environment (jsdom)
+-- test setup
 
 ## writing a unit test in a vue context
 
 -- test files
+-- vitest - expects
 -- vitest - async nature of tests
 -- vitest - beforeEach, afterEach
--- vitest - expects
 -- vue context - mount vs shallow mount
 -- vue context - props and data
 -- vue context - responding to events

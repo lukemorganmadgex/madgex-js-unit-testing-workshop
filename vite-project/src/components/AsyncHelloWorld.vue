@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import axios from 'axios';
 
-const jobCount = ref(0);
+const jobCount = ref(3);
 const jobs = ref([]);
 
 async function getJobs() {
@@ -25,10 +25,10 @@ async function getJobs() {
     <button type="submit" @click="getJobs()">Get jobs</button>
   </form>
   <div class="results">
-    <div v-for="(job, index) in jobs" :key="index">
-      <h3>title: {{ job.title }}</h3>
-      <p>description: {{ job.description }}</p>
-      <small>salrary: {{ job.salary }}</small>
+    <div class="job" v-for="(job, index) in jobs" :key="index">
+      <h3>{{ job.title }}</h3>
+      <p>{{ job.description }}</p>
+      <small>salrary: £{{ job.salary }} gbp p/a</small>
     </div>
   </div>
 </template>
