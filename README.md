@@ -1,5 +1,7 @@
 # Lesson 1
 
+A unit testing workshop for Madgex front-end developers. Looks at NPM Workspaces, Vue, Vite, Vitest, Vue Test Utils and Mock Service Worker.
+
 ## npm workspaces
 
 1. run `npm init -w api`
@@ -54,7 +56,31 @@ app.listen(port, () => {
 -- vue js intro - who/what/when/where/why
 -- vite build tool intro - who/what/when/where/why
 -- vite config file - who/what/when/where/why
--- alias in vite file
+
+1. define an proxy for our api domain so that we can make requests using '/api'
+-- add the following to the `/vite-project/vite.config.js`
+
+```js
+server: {
+    proxy: {
+      '/api': {
+        target: '"http://localhost:3000"',
+        changeOrigin: true,
+      },
+    },
+  },
+```
+
+2. define an alias so that `@` resolves to the `/src` of our `/vite-project/src`
+-- add the following to the `/vite-project/vite.config.js`
+
+```js
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+```
 
 ## vitest
 
