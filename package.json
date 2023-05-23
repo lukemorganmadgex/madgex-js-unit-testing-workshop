@@ -1,7 +1,7 @@
 {
-  "name": "js-unit-testing",
+  "name": "madgex-frontend-tools-workshop",
   "version": "1.0.0",
-  "description": "a workshop for madgex feds on unit testing js projects",
+  "description": "a workshop for madgex feds on tooling for unit testing",
   "main": "index.js",
   "scripts": {
     "test": "node index.js"
