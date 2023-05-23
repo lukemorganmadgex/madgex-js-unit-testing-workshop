@@ -201,19 +201,16 @@ async function getJobs() {
 
 7. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
 
-## Lesson 4 - writing a unit test in a vue context
+8. write an npm script that will run all our tests for us.
 
--- test files
--- vitest - expects
--- vitest - async nature of tests
--- vitest - beforeEach, afterEach
--- vue context - mount vs shallow mount
--- vue context - props and data
--- vue context - responding to events
--- vitest - spys
--- vue context - flushPromises()
+```json
+"scripts": {
+    "test:vite-project": "npm run vitest -w vite-project",
+  },
+```
 
 ## Lesson 5 - mock service worker
 
--- setup & how it works
--- mocking http requests/responses
+-- setup files for vitest
+-- setup & how msw works
+-- mocking RESTFUL http requests/responses
