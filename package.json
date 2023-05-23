@@ -4,12 +4,8 @@
   "description": "a workshop for madgex feds on unit testing js projects",
   "main": "index.js",
   "scripts": {
-    "dev:vite-project": "npm run dev -w vite-project",
-    "test:vite-project": "npm run test -w vite-project"
+    "test": "node index.js"
   },
-  "workspaces": [
-    "vite-project"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lukemorganmadgex/madgex-js-unit-testing-workshop.git"
