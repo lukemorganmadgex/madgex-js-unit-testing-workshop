@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "dev:vite-project": "npm run dev -w vite-project",
-    "test:vite-project": "npm run test -w vite-project",
     "start:api": "npm run start -w api"
   },
   "workspaces": [
