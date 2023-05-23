@@ -187,11 +187,11 @@ async function getJobs() {
 
 `cd ./packages/vite-project`
 
-1. install vitest into the package you want to test `npm install -D vitest`.
+1. install vitest into the package you want to test `npm i -D vitest`.
 
-2. install `jsdom` so we can mock a browser environment.
+2. install `jsdom` so we can mock a browser environment `npm i -D jsdom`.
 
-3. install vue test utils `npm install --save-dev @vue/test-utils`.
+3. install vue test utils `npm i -D @vue/test-utils`.
 
 4. create a test spec file that will live next to our component `HelloWorld.spec.js`.
 
