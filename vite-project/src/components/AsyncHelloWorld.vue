@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 import axios from 'axios';
 
 const jobCount = ref(3);
@@ -13,7 +13,6 @@ async function getJobs() {
   }
 
 }
-
 </script>
 
 <template>

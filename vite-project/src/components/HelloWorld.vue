@@ -15,5 +15,3 @@ const count = ref(0);
     <button type="button" @click="count++">count is <span id="counter-text">{{ count }}</span></button>
   </div>
 </template>
-
-<style scoped></style>

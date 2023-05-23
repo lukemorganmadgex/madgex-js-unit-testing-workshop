@@ -84,7 +84,7 @@ app.listen(port, () => {
   },
 ```
 
-6. in monorepo root, add a command to start the api workspace `npm run start -w api`
+6. in monorepo root, add a command to start the api `npm run start -w api`
 
 ```json
   "scripts": {
@@ -97,7 +97,14 @@ app.listen(port, () => {
 [vue](https://vuejs.org/)
 [vite](https://vitejs.dev/)
 
-1. Create a vue project using: `npm create vite@latest`
+1. Create a vue project using: `npm create vite@latest`. Add the directory to our workspaces in `package.json`
+
+```json
+ "workspaces": [
+    "vite-project",
+    "api"
+  ],
+```
 
 2. define an proxy in our vite config file for our api domain so that we can make requests using '/api'
 
@@ -164,7 +171,7 @@ async function getJobs() {
     <div class="job" v-for="(job, index) in jobs" :key="index">
       <h3>{{ job.title }}</h3>
       <p>{{ job.description }}</p>
-      <small>salrary: £{{ job.salary }} gbp p/a</small>
+      <small>salary: £{{ job.salary }} gbp p/a</small>
     </div>
   </div>
 </template>
@@ -180,34 +187,63 @@ async function getJobs() {
   },
 ```
 
-## Lesson 3 - vitest
+## Lesson 3 - vitest & vue test utils
 
 [vitest](https://vitest.dev/)
 [vue test utils](https://test-utils.vuejs.org/)
 
-`cd ./packages/vite-project`
+1. install vitest into the package you want to test `npm i -D vitest -w vite-project`.
 
-1. install vitest into the package you want to test `npm install -D vitest`.
+2. install `jsdom` so we can mock a browser environment `npm i -D jsdom -w vite-project`.
 
-2. install `jsdom` so we can mock a browser environment.
+```js
+test: {
+    environment: 'jsdom',
+  },
+```
 
-3. install vue test utils `npm install --save-dev @vue/test-utils`.
+3. install vue test utils `npm i -D @vue/test-utils -w vite-project`.
 
 4. create a test spec file that will live next to our component `HelloWorld.spec.js`.
 
-5. write a unit test that will check the text inside the h1 component matches the value passed into the component.
+```js
+import { describe, it, expects } from "vitest";
+import { mount } from "@vue/test-utils";
+import HelloWorld from "./HelloWorld.vue";
+```
 
-6. write a unit test that will trigger the button click and check the value of the `count` state ref.
+5. write a unit test that will render the title in a h1 tag.
 
-7. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
+[mounting a vue context](https://test-utils.vuejs.org/api/#mount)
+[finding elements in the DOM](https://test-utils.vuejs.org/api/#find)
+[writing a test statement](https://vitest.dev/api/expect.html)
 
-8. write an npm script that will run all our tests for us.
+```js
+describe("Hello World", () => {
+  it("Displays the title in a H1 tag", () => {
+    const hello = mount(HelloWorld, {
+      props: {
+        msg: "Unit test",
+      },
+    });
+
+    const title = hello.find("h1");
+    expect(title.text()).toBe("Unit test");
+  });
+});
+```
+
+6. write an npm script that will run all our tests for us.
 
 ```json
 "scripts": {
-    "test:vite-project": "npm run vitest -w vite-project",
+    "test:vite-project": "npm run test -w vite-project",
   },
 ```
+
+7. write a unit test that will trigger the button click and check the value of the `count` state ref.
+
+8. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
 
 ## Lesson 5 - mock service worker
 
