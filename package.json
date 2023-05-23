@@ -25,11 +25,5 @@
   "bugs": {
     "url": "https://github.com/lukemorganmadgex/madgex-js-unit-testing-workshop/issues"
   },
-  "homepage": "https://github.com/lukemorganmadgex/madgex-js-unit-testing-workshop#readme",
-  "devDependencies": {
-    "@vue/test-utils": "^2.3.2",
-    "jsdom": "^22.0.0",
-    "msw": "^1.2.1",
-    "vitest": "^0.31.1"
-  }
+  "homepage": "https://github.com/lukemorganmadgex/madgex-js-unit-testing-workshop#readme"
 }
