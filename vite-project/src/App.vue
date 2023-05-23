@@ -4,7 +4,7 @@ import AsyncHelloWorld from '@/components/AsyncHelloWorld.vue';
 </script>
 
 <template>
-  <HelloWorld msg="Vite + Vue + Vitest + Vue Test Utils + MSW" />
+  <HelloWorld msg="Vite + Vue + Vitest + Vue Test Utils" />
   <AsyncHelloWorld />
 </template>
 
