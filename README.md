@@ -1,6 +1,6 @@
 # Madgex FED js unit testing workshop
 
-A unit testing workshop for Madgex front-end developers. Looks at NPM Workspaces, Vue, Vite, Vitest, Vue Test Utils and Mock Service Worker.
+A tooling workshop for Madgex front-end developers. Looks at NPM Workspaces, Vue, Vite, Vitest, Vue Test Utils and Mock Service Worker.
 
 ## Lesson 1 - npm workspaces
 
@@ -94,11 +94,12 @@ app.listen(port, () => {
 
 ## Lesson 2 - vite + vue
 
-vue js intro - who/what/when/where/why
-vite build tool intro - who/what/when/where/why
-vite config file - who/what/when/where/why
+[vue](https://vuejs.org/)
+[vite](https://vitejs.dev/)
 
-1. define an proxy for our api domain so that we can make requests using '/api'
+1. Create a vue project using: `npm create vite@latest`
+
+2. define an proxy in our vite config file for our api domain so that we can make requests using '/api'
 
 add the following to the `/vite-project/vite.config.js`
 
@@ -113,7 +114,7 @@ server: {
   },
 ```
 
-2. define an alias so that `@` resolves to the `/src` of our `/vite-project/src`
+3. define an alias so that `@` resolves to the `/src` of our `/vite-project/src`
 
 add the following to the `/vite-project/vite.config.js`
 
@@ -129,13 +130,76 @@ import { fileURLToPath, URL } from "node:url";
   },
 ```
 
+4. create an async hello world component that will speak to our api from lesson 01
+
+```vue
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+
+const jobCount = ref(3);
+const jobs = ref([]);
+
+async function getJobs() {
+  const res = await axios.get(`/api/jobs?jobCount=${jobCount.value}`);
+  if (res.status === 200) {
+    jobs.value = res.data.data;
+  }
+}
+</script>
+
+<template>
+  <form style="margin-bottom: 2rem;" @submit.prevent>
+    <div
+      style="margin: 0 auto; width: 300px; margin-bottom: 2rem; display: flex; flex-direction: column;"
+    >
+      <label for="jobs" style="margin-bottom: 1rem;"
+        >How Many Jobs Do you Want to See?</label
+      >
+      <input type="number" name="jobs" id="jobs" v-model="jobCount" />
+    </div>
+    <button type="submit" @click="getJobs()">Get jobs</button>
+  </form>
+  <div class="results">
+    <div class="job" v-for="(job, index) in jobs" :key="index">
+      <h3>{{ job.title }}</h3>
+      <p>{{ job.description }}</p>
+      <small>salrary: £{{ job.salary }} gbp p/a</small>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>
+```
+
+5. Add a script to the monorepo root to start our vite project dev-server
+
+```json
+"scripts": {
+    "dev:vite-project": "npm run dev -w vite-project",
+  },
+```
+
 ## Lesson 3 - vitest
 
--- test environment (jsdom)
--- test setup
+[vitest](https://vitest.dev/)
+[vue test utils](https://test-utils.vuejs.org/)
 
-1. install vitest into the package you want to test `npm install -D vitest`
-2. install `jsdom` so we can mock a browser environment
+`cd ./packages/vite-project`
+
+1. install vitest into the package you want to test `npm install -D vitest`.
+
+2. install `jsdom` so we can mock a browser environment.
+
+3. install vue test utils `npm install --save-dev @vue/test-utils`.
+
+4. create a test spec file that will live next to our component `HelloWorld.spec.js`.
+
+5. write a unit test that will check the text inside the h1 component matches the value passed into the component.
+
+6. write a unit test that will trigger the button click and check the value of the `count` state ref.
+
+7. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
 
 ## Lesson 4 - writing a unit test in a vue context
 
