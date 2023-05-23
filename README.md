@@ -10,41 +10,69 @@ A unit testing workshop for Madgex front-end developers. Looks at NPM Workspaces
 4. add the following to your `/api/index.js` to create a simple hello world express app
 
 ```js
-const express = require('express');
+const express = require("express");
 const app = express();
 const port = 3000;
 
 const jobs = [
-  { id: 1, title: 'Web developer', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.', salary: '25,000.00' },
-  { id: 2, title: 'Senior Web developer', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.', salary: '35,000.00' },
-  { id: 3, title: 'Web designer', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.', salary: '25,000.00' },
-  { id: 4, title: 'Senior Web designer', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.', salary: '35,000.00' },
-  { id: 5, title: 'QA Tester', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.', salary: '25,000.00' }
+  {
+    id: 1,
+    title: "Web developer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
+  {
+    id: 2,
+    title: "Senior Web developer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "35,000.00",
+  },
+  {
+    id: 3,
+    title: "Web designer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
+  {
+    id: 4,
+    title: "Senior Web designer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "35,000.00",
+  },
+  {
+    id: 5,
+    title: "QA Tester",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
 ];
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
-app.get('/api/jobs', (req, res) => {
-
-  if (req.query['jobCount']) {
-    const jobSlice = jobs.slice(0, parseInt(req.query['jobCount'], 10));
+app.get("/api/jobs", (req, res) => {
+  if (req.query["jobCount"]) {
+    const jobSlice = jobs.slice(0, parseInt(req.query["jobCount"], 10));
     res.json({
-      status: 'success',
+      status: "success",
       data: jobSlice,
     });
   }
 
   res.json({
-    status: 'success',
+    status: "success",
     data: jobs,
   });
-
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Example app listening on port ${port}`);
 });
 ```
 
@@ -90,7 +118,7 @@ server: {
 add the following to the `/vite-project/vite.config.js`
 
 ```js
-  import { fileURLToPath, URL } from 'node:url';
+import { fileURLToPath, URL } from "node:url";
 ```
 
 ```js
@@ -105,6 +133,9 @@ add the following to the `/vite-project/vite.config.js`
 
 -- test environment (jsdom)
 -- test setup
+
+1. install vitest into the package you want to test `npm install -D vitest`
+2. install `jsdom` so we can mock a browser environment
 
 ## Lesson 4 - writing a unit test in a vue context
 
