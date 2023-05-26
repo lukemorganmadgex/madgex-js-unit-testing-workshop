@@ -1,4 +1,4 @@
-# Madgex FED js unit testing workshop
+# Madgex FED Vue.js unit testing workshop
 
 A tooling workshop for Madgex front-end developers. Looks at NPM Workspaces, Vue, Vite, Vitest, Vue Test Utils and Mock Service Worker.
 
@@ -245,7 +245,7 @@ describe("Hello World", () => {
 
 8. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
 
-## Lesson 5 - mock service worker
+## Lesson 4 - mock service worker
 
 -- setup files for vitest
 -- setup & how msw works
