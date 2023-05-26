@@ -1,11 +1,9 @@
 {
-  "name": "js-unit-testing",
+  "name": "madgex-frontend-tools-workshop",
   "version": "1.0.0",
-  "description": "a workshop for madgex feds on unit testing js projects",
-  "main": "index.js",
+  "description": "a workshop for madgex feds on tooling for unit testing",
   "scripts": {
     "dev:vite-project": "npm run dev -w vite-project",
-    "test:vite-project": "npm run test -w vite-project",
     "start:api": "npm run start -w api"
   },
   "workspaces": [
