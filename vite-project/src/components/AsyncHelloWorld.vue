@@ -7,9 +7,13 @@ const jobs = ref([]);
 
 async function getJobs() {
 
-  const res = await axios.get(`/api/jobs?jobCount=${jobCount.value}`);
-  if (res.status === 200) {
-    jobs.value = res.data.data;
+  try {
+    const res = await axios.get(`/api/jobs?jobCount=${jobCount.value}`);
+    if (res.status === 200) {
+      jobs.value = res.data.data;
+    }
+  } catch (error) {
+    console.error(error);
   }
 
 }
