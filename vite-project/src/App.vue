@@ -7,7 +7,7 @@ const message = 'Vue, Vitest and Vue Test Utils'
 
 <template>
   <HelloWorld :msg="message" />
-  <!-- <AsyncHelloWorld /> -->
+  <AsyncHelloWorld />
 </template>
 
 <style scoped></style>

@@ -141,7 +141,7 @@ import { fileURLToPath, URL } from "node:url";
 
 ```vue
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 
 const jobCount = ref(3);
@@ -153,6 +153,10 @@ async function getJobs() {
     jobs.value = res.data.data;
   }
 }
+
+onMounted(() => {
+  getJobs();
+});
 </script>
 
 <template>
@@ -171,7 +175,7 @@ async function getJobs() {
     <div class="job" v-for="(job, index) in jobs" :key="index">
       <h3>{{ job.title }}</h3>
       <p>{{ job.description }}</p>
-      <small>salary: £{{ job.salary }} gbp p/a</small>
+      <small>salrary: £{{ job.salary }} gbp p/a</small>
     </div>
   </div>
 </template>
@@ -207,7 +211,7 @@ test: {
 4. create a test spec file that will live next to our component `HelloWorld.spec.js`.
 
 ```js
-import { describe, it, expects } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import HelloWorld from "./HelloWorld.vue";
 ```
@@ -250,3 +254,40 @@ describe("Hello World", () => {
 -- setup files for vitest
 -- setup & how msw works
 -- mocking RESTFUL http requests/responses
+
+1 - install the mock service worker package in your vite project
+
+```bash
+npm i msw -w vite-project
+```
+
+2 - create a `/test` directory sat adjacent to our `/src` and create an `index.js` file to live inside of your `/test` dir
+
+3 - in our setup file - lets init msw following the [vitest docs exmaple](https://vitest.dev/guide/mocking.html#configuration)
+
+```js
+import { beforeEach, beforeAll, afterAll, afterEach, vi } from "vitest";
+import { setupServer } from "msw/node";
+
+const restHandlers = [];
+
+const server = setupServer(...restHandlers);
+
+// Start server before all tests
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+
+//  Close server after all tests
+afterAll(() => server.close());
+
+// Reset handlers after each test `important for test isolation`
+afterEach(() => server.resetHandlers());
+```
+
+4 - now we need to tell vitest to run that setup file before every test run. modify your `vitest.config.js`
+
+```js
+test: {
+    environment: 'jsdom',
+    setupFiles: ['./test/index.js'],
+  },
+```
