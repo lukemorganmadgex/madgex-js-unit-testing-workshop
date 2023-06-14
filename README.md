@@ -137,49 +137,7 @@ import { fileURLToPath, URL } from "node:url";
   },
 ```
 
-4. create an async hello world component that will speak to our api from lesson 01
-
-```vue
-<script setup>
-import { ref } from "vue";
-import axios from "axios";
-
-const jobCount = ref(3);
-const jobs = ref([]);
-
-async function getJobs() {
-  const res = await axios.get(`/api/jobs?jobCount=${jobCount.value}`);
-  if (res.status === 200) {
-    jobs.value = res.data.data;
-  }
-}
-</script>
-
-<template>
-  <form style="margin-bottom: 2rem;" @submit.prevent>
-    <div
-      style="margin: 0 auto; width: 300px; margin-bottom: 2rem; display: flex; flex-direction: column;"
-    >
-      <label for="jobs" style="margin-bottom: 1rem;"
-        >How Many Jobs Do you Want to See?</label
-      >
-      <input type="number" name="jobs" id="jobs" v-model="jobCount" />
-    </div>
-    <button type="submit" @click="getJobs()">Get jobs</button>
-  </form>
-  <div class="results">
-    <div class="job" v-for="(job, index) in jobs" :key="index">
-      <h3>{{ job.title }}</h3>
-      <p>{{ job.description }}</p>
-      <small>salary: £{{ job.salary }} gbp p/a</small>
-    </div>
-  </div>
-</template>
-
-<style scoped></style>
-```
-
-5. Add a script to the monorepo root to start our vite project dev-server
+4. Add a script to the monorepo root to start our vite project dev-server
 
 ```json
 "scripts": {
@@ -207,7 +165,7 @@ test: {
 4. create a test spec file that will live next to our component `HelloWorld.spec.js`.
 
 ```js
-import { describe, it, expects } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import HelloWorld from "./HelloWorld.vue";
 ```
@@ -243,10 +201,213 @@ describe("Hello World", () => {
 
 7. write a unit test that will trigger the button click and check the value of the `count` state ref.
 
-8. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
+8. modify your `HelloWorld.vue` so that the interpolated count is in a span with an id we can target in a test.
+
+```html
+<button type="button" @click="count++">
+  count is <span id="counter-text">{{ count }}</span>
+</button>
+```
+
+9. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
+
+```javascript
+import { mount, flushPromises } from "@vue/test-utils";
+```
 
 ## Lesson 4 - mock service worker
 
+-- install axios
+-- create a component that makes api calls
 -- setup files for vitest
 -- setup & how msw works
 -- mocking RESTFUL http requests/responses
+
+1. create an async hello world component that will speak to our api from lesson 01
+
+```bash
+npm i axios -w vite-project
+```
+
+```vue
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const jobCount = ref(3);
+const jobs = ref([]);
+
+async function getJobs() {
+  const res = await axios.get(`/api/jobs?jobCount=${jobCount.value}`);
+  if (res.status === 200) {
+    jobs.value = res.data.data;
+  }
+}
+
+onMounted(() => {
+  getJobs();
+});
+</script>
+
+<template>
+  <form style="margin-bottom: 2rem;" @submit.prevent>
+    <div
+      style="margin: 0 auto; width: 300px; margin-bottom: 2rem; display: flex; flex-direction: column;"
+    >
+      <label for="jobs" style="margin-bottom: 1rem;"
+        >How Many Jobs Do you Want to See?</label
+      >
+      <input type="number" name="jobs" id="jobs" v-model="jobCount" />
+    </div>
+    <button type="submit" @click="getJobs()">Get jobs</button>
+  </form>
+  <div class="results">
+    <div class="job" v-for="(job, index) in jobs" :key="index">
+      <h3>{{ job.title }}</h3>
+      <p>{{ job.description }}</p>
+      <small>salrary: £{{ job.salary }} gbp p/a</small>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>
+```
+
+2. Lets see why we need mock service worker - write a unit test file to check that modifying the number input updates our view model.
+
+```js
+import { describe, it, expect } from "vitest";
+import { mount, flushPromises } from "@vue/test-utils";
+import AsyncHelloWorld from "./AsyncHelloWorld.vue";
+
+describe("AsyncHelloWorld", () => {
+  it("Updates the job count ref when the number input is changed", () => {
+    const hello = mount(AsyncHelloWorld);
+    const jobCountInput = hello.find('input[name="jobs"]');
+    jobCountInput.setValue("4");
+    jobCountInput.trigger("change");
+    expect(hello.vm.jobCount).toBe(4);
+  });
+});
+```
+
+Temporarily console log out the html of the component inside that test we just wrote - you can see there are no job cards being rendered
+
+```
+console.log(hello.html());
+```
+
+3. install the mock service worker package in your vite project
+
+```bash
+npm i msw -D -w vite-project
+```
+
+4. create a `/test` directory sat adjacent to our `/src` and create an `index.js` file to live inside of your `/test` dir
+
+5. in our setup file - lets init msw following the [vitest docs exmaple](https://vitest.dev/guide/mocking.html#configuration)
+
+```js
+import { beforeAll, afterAll, afterEach, vi } from "vitest";
+import { setupServer } from "msw/node";
+
+const server = setupServer();
+
+// Start server before all tests
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+
+//  Close server after all tests
+afterAll(() => server.close());
+
+// Reset handlers after each test `important for test isolation`
+afterEach(() => server.resetHandlers());
+```
+
+6. now we need to tell vitest to run that setup file before every test run. modify your `vitest.config.js`
+
+```js
+test: {
+    environment: 'jsdom',
+    setupFiles: ['./test/index.js'],
+  },
+```
+
+7. now lets mock an api response - create a folder inside `/test` called `/mocks`
+
+8. inside `test/mocks` create a file called `api.js`
+
+```js
+import { rest } from "msw";
+
+const BASE_URL = "/api";
+
+const jobs = [
+  {
+    id: 1,
+    title: "Web developer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
+  {
+    id: 2,
+    title: "Senior Web developer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "35,000.00",
+  },
+  {
+    id: 3,
+    title: "Web designer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
+  {
+    id: 4,
+    title: "Senior Web designer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "35,000.00",
+  },
+  {
+    id: 5,
+    title: "QA Tester",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
+];
+
+export const apiRequests = [
+  rest.get(`${BASE_URL}/jobs`, (req, res, ctx) => {
+    const count = req.url.searchParams.get("jobCount");
+    let data = count && count > 0 ? jobs.slice(0, parseInt(count, 10)) : jobs;
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data,
+      })
+    );
+  }),
+];
+```
+
+9. now we need to bring in that handler function to our server in our setup file
+
+```js
+import { apiRequests } from "./mocks/api";
+
+const server = setupServer(...apiRequests);
+```
+
+10. Write a unit test that renders a card for each job once the component has mounted
+
+```js
+it("renders a card for each job", async () => {
+  const hello = mount(AsyncHelloWorld);
+  await flushPromises();
+  const jobCards = hello.findAll(".job");
+  expect(jobCards.length).toBe(3);
+});
+```
