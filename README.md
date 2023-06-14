@@ -273,23 +273,45 @@ onMounted(() => {
 <style scoped></style>
 ```
 
-2. install the mock service worker package in your vite project
-
-```bash
-npm i msw -w vite-project
-```
-
-3. create a `/test` directory sat adjacent to our `/src` and create an `index.js` file to live inside of your `/test` dir
-
-4. in our setup file - lets init msw following the [vitest docs exmaple](https://vitest.dev/guide/mocking.html#configuration)
+2. Lets see why we need mock service worker - write a unit test file to check that modifying the number input updates our view model.
 
 ```js
-import { beforeEach, beforeAll, afterAll, afterEach, vi } from "vitest";
+import { describe, it, expect } from "vitest";
+import { mount, flushPromises } from "@vue/test-utils";
+import AsyncHelloWorld from "./AsyncHelloWorld.vue";
+
+describe("AsyncHelloWorld", () => {
+  it("Updates the job count ref when the number input is changed", () => {
+    const hello = mount(AsyncHelloWorld);
+    const jobCountInput = hello.find('input[name="jobs"]');
+    jobCountInput.setValue("4");
+    jobCountInput.trigger("change");
+    expect(hello.vm.jobCount).toBe(4);
+  });
+});
+```
+
+Temporarily console log out the html of the component inside that test we just wrote - you can see there are no job cards being rendered
+
+```
+console.log(hello.html());
+```
+
+3. install the mock service worker package in your vite project
+
+```bash
+npm i msw -D -w vite-project
+```
+
+4. create a `/test` directory sat adjacent to our `/src` and create an `index.js` file to live inside of your `/test` dir
+
+5. in our setup file - lets init msw following the [vitest docs exmaple](https://vitest.dev/guide/mocking.html#configuration)
+
+```js
+import { beforeAll, afterAll, afterEach, vi } from "vitest";
 import { setupServer } from "msw/node";
 
-const restHandlers = [];
-
-const server = setupServer(...restHandlers);
+const server = setupServer();
 
 // Start server before all tests
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
@@ -301,11 +323,91 @@ afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 ```
 
-5. now we need to tell vitest to run that setup file before every test run. modify your `vitest.config.js`
+6. now we need to tell vitest to run that setup file before every test run. modify your `vitest.config.js`
 
 ```js
 test: {
     environment: 'jsdom',
     setupFiles: ['./test/index.js'],
   },
+```
+
+7. now lets mock an api response - create a folder inside `/test` called `/mocks`
+
+8. inside `test/mocks` create a file called `api.js`
+
+```js
+import { rest } from "msw";
+
+const BASE_URL = "/api";
+
+const jobs = [
+  {
+    id: 1,
+    title: "Web developer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
+  {
+    id: 2,
+    title: "Senior Web developer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "35,000.00",
+  },
+  {
+    id: 3,
+    title: "Web designer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
+  {
+    id: 4,
+    title: "Senior Web designer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "35,000.00",
+  },
+  {
+    id: 5,
+    title: "QA Tester",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis tellus lorem. Nam convallis porta augue sit amet aliquet. Aenean.",
+    salary: "25,000.00",
+  },
+];
+
+export const apiRequests = [
+  rest.get(`${BASE_URL}/jobs`, (req, res, ctx) => {
+    const count = req.url.searchParams.get("jobCount");
+    let data = count && count > 0 ? jobs.slice(0, parseInt(count, 10)) : jobs;
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data,
+      })
+    );
+  }),
+];
+```
+
+9. now we need to bring in that handler function to our server in out setup file
+
+```js
+import { apiRequests } from "./mocks/api";
+
+const server = setupServer(...apiRequests);
+```
+
+10. Write a unit test that renders a card for each job once the component has mounted
+
+```js
+it("renders a card for each job", async () => {
+  const hello = mount(AsyncHelloWorld);
+  await flushPromises();
+  const jobCards = hello.findAll(".job");
+  expect(jobCards.length).toBe(3);
+});
 ```
