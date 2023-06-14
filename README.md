@@ -393,7 +393,7 @@ export const apiRequests = [
 ];
 ```
 
-9. now we need to bring in that handler function to our server in out setup file
+9. now we need to bring in that handler function to our server in our setup file
 
 ```js
 import { apiRequests } from "./mocks/api";
