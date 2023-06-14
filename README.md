@@ -215,13 +215,7 @@ describe("Hello World", () => {
 import { mount, flushPromises } from "@vue/test-utils";
 ```
 
-## Lesson 4 - mock service worker
-
--- install axios
--- create a component that makes api calls
--- setup files for vitest
--- setup & how msw works
--- mocking RESTFUL http requests/responses
+## Lesson 4 - Mock service worker
 
 1. create an async hello world component that will speak to our api from lesson 01
 
@@ -411,3 +405,5 @@ it("renders a card for each job", async () => {
   expect(jobCards.length).toBe(3);
 });
 ```
+
+## Lesson 05 - Spies
