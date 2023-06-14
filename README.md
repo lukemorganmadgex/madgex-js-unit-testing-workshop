@@ -139,6 +139,10 @@ import { fileURLToPath, URL } from "node:url";
 
 4. create an async hello world component that will speak to our api from lesson 01
 
+```bash
+npm i axios -w vite-project
+```
+
 ```vue
 <script setup>
 import { ref, onMounted } from "vue";
@@ -247,7 +251,19 @@ describe("Hello World", () => {
 
 7. write a unit test that will trigger the button click and check the value of the `count` state ref.
 
-8. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
+8. modify your `HelloWorld.vue` so that the interpolated count is in a span with an id we can target in a test.
+
+```html
+<button type="button" @click="count++">
+  count is <span id="counter-text">{{ count }}</span>
+</button>
+```
+
+9. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
+
+```javascript
+import { mount, flushPromises } from "@vue/test-utils";
+```
 
 ## Lesson 4 - mock service worker
 
