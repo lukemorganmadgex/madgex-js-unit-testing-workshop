@@ -4,7 +4,8 @@
   "description": "a workshop for madgex feds on tooling for unit testing",
   "scripts": {
     "dev:vite-project": "npm run dev -w vite-project",
-    "start:api": "npm run start -w api"
+    "start:api": "npm run start -w api",
+    "test:vite-project": "npm run test -w vite-project"
   },
   "workspaces": [
     "vite-project",
