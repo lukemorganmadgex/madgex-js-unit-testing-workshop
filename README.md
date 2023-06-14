@@ -137,57 +137,7 @@ import { fileURLToPath, URL } from "node:url";
   },
 ```
 
-4. create an async hello world component that will speak to our api from lesson 01
-
-```bash
-npm i axios -w vite-project
-```
-
-```vue
-<script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
-
-const jobCount = ref(3);
-const jobs = ref([]);
-
-async function getJobs() {
-  const res = await axios.get(`/api/jobs?jobCount=${jobCount.value}`);
-  if (res.status === 200) {
-    jobs.value = res.data.data;
-  }
-}
-
-onMounted(() => {
-  getJobs();
-});
-</script>
-
-<template>
-  <form style="margin-bottom: 2rem;" @submit.prevent>
-    <div
-      style="margin: 0 auto; width: 300px; margin-bottom: 2rem; display: flex; flex-direction: column;"
-    >
-      <label for="jobs" style="margin-bottom: 1rem;"
-        >How Many Jobs Do you Want to See?</label
-      >
-      <input type="number" name="jobs" id="jobs" v-model="jobCount" />
-    </div>
-    <button type="submit" @click="getJobs()">Get jobs</button>
-  </form>
-  <div class="results">
-    <div class="job" v-for="(job, index) in jobs" :key="index">
-      <h3>{{ job.title }}</h3>
-      <p>{{ job.description }}</p>
-      <small>salrary: £{{ job.salary }} gbp p/a</small>
-    </div>
-  </div>
-</template>
-
-<style scoped></style>
-```
-
-5. Add a script to the monorepo root to start our vite project dev-server
+4. Add a script to the monorepo root to start our vite project dev-server
 
 ```json
 "scripts": {
@@ -267,19 +217,71 @@ import { mount, flushPromises } from "@vue/test-utils";
 
 ## Lesson 4 - mock service worker
 
+-- install axios
+-- create a component that makes api calls
 -- setup files for vitest
 -- setup & how msw works
 -- mocking RESTFUL http requests/responses
 
-1 - install the mock service worker package in your vite project
+1. create an async hello world component that will speak to our api from lesson 01
+
+```bash
+npm i axios -w vite-project
+```
+
+```vue
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const jobCount = ref(3);
+const jobs = ref([]);
+
+async function getJobs() {
+  const res = await axios.get(`/api/jobs?jobCount=${jobCount.value}`);
+  if (res.status === 200) {
+    jobs.value = res.data.data;
+  }
+}
+
+onMounted(() => {
+  getJobs();
+});
+</script>
+
+<template>
+  <form style="margin-bottom: 2rem;" @submit.prevent>
+    <div
+      style="margin: 0 auto; width: 300px; margin-bottom: 2rem; display: flex; flex-direction: column;"
+    >
+      <label for="jobs" style="margin-bottom: 1rem;"
+        >How Many Jobs Do you Want to See?</label
+      >
+      <input type="number" name="jobs" id="jobs" v-model="jobCount" />
+    </div>
+    <button type="submit" @click="getJobs()">Get jobs</button>
+  </form>
+  <div class="results">
+    <div class="job" v-for="(job, index) in jobs" :key="index">
+      <h3>{{ job.title }}</h3>
+      <p>{{ job.description }}</p>
+      <small>salrary: £{{ job.salary }} gbp p/a</small>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>
+```
+
+2. install the mock service worker package in your vite project
 
 ```bash
 npm i msw -w vite-project
 ```
 
-2 - create a `/test` directory sat adjacent to our `/src` and create an `index.js` file to live inside of your `/test` dir
+3. create a `/test` directory sat adjacent to our `/src` and create an `index.js` file to live inside of your `/test` dir
 
-3 - in our setup file - lets init msw following the [vitest docs exmaple](https://vitest.dev/guide/mocking.html#configuration)
+4. in our setup file - lets init msw following the [vitest docs exmaple](https://vitest.dev/guide/mocking.html#configuration)
 
 ```js
 import { beforeEach, beforeAll, afterAll, afterEach, vi } from "vitest";
@@ -299,7 +301,7 @@ afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 ```
 
-4 - now we need to tell vitest to run that setup file before every test run. modify your `vitest.config.js`
+5. now we need to tell vitest to run that setup file before every test run. modify your `vitest.config.js`
 
 ```js
 test: {
