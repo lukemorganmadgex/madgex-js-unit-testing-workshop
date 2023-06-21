@@ -407,3 +407,24 @@ it("renders a card for each job", async () => {
 ```
 
 ## Lesson 05 - Spies
+
+[mocking and spying](https://vitest.dev/guide/mocking.html#functions)
+
+1. Import the vi object from vitest
+
+```js
+import { describe, it, expect, vi } from "vitest";
+```
+
+2. Write a unit test that lets us spy on the `getJobs` function
+
+```js
+it("calls the getJobs fn when the button is click", async () => {
+  const hello = mount(AsyncHelloWorld);
+  const spy = vi.spyOn(hello.vm, "getJobs");
+  const button = hello.find("button");
+  await button.trigger("click");
+  await flushPromises();
+  expect(spy).toHaveBeenCalled();
+});
+```
