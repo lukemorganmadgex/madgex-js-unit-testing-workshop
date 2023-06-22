@@ -154,15 +154,17 @@ import { fileURLToPath, URL } from "node:url";
 
 2. install `jsdom` so we can mock a browser environment `npm i -D jsdom -w vite-project`.
 
+3. Add a test block to your `vite.config.js`
+
 ```js
 test: {
     environment: 'jsdom',
   },
 ```
 
-3. install vue test utils `npm i -D @vue/test-utils -w vite-project`.
+4. install vue test utils `npm i -D @vue/test-utils -w vite-project`.
 
-4. create a test spec file that will live next to our component `HelloWorld.spec.js`.
+5. create a test spec file that will live next to our component `HelloWorld.spec.js`.
 
 ```js
 import { describe, it, expect } from "vitest";
@@ -170,7 +172,7 @@ import { mount } from "@vue/test-utils";
 import HelloWorld from "./HelloWorld.vue";
 ```
 
-5. write a unit test that will render the title in a h1 tag.
+6. write a unit test that will render the title in a h1 tag.
 
 [mounting a vue context](https://test-utils.vuejs.org/api/#mount)
 [finding elements in the DOM](https://test-utils.vuejs.org/api/#find)
@@ -191,7 +193,7 @@ describe("Hello World", () => {
 });
 ```
 
-6. write an npm script that will run all our tests for us.
+7. write an npm script that will run all our tests for us.
 
 ```json
 "scripts": {
@@ -199,9 +201,9 @@ describe("Hello World", () => {
   },
 ```
 
-7. write a unit test that will trigger the button click and check the value of the `count` state ref.
+8. write a unit test that will trigger the button click and check the value of the `count` state ref.
 
-8. modify your `HelloWorld.vue` so that the interpolated count is in a span with an id we can target in a test.
+9. modify your `HelloWorld.vue` so that the interpolated count is in a span with an id we can target in a test.
 
 ```html
 <button type="button" @click="count++">
@@ -209,7 +211,7 @@ describe("Hello World", () => {
 </button>
 ```
 
-9. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
+10. write a unit test that will ensure the text inside the span with the id `counter-text` upates.
 
 ```javascript
 import { mount, flushPromises } from "@vue/test-utils";
@@ -317,7 +319,7 @@ afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 ```
 
-6. now we need to tell vitest to run that setup file before every test run. modify your `vitest.config.js`
+6. now we need to tell vitest to run that setup file before every test run. modify your `vite.config.js`
 
 ```js
 test: {
